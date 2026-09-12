@@ -132,7 +132,7 @@ export default function Projects() {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col items-center mb-24"
         >
-          <h2 className="font-heading text-6xl md:text-[8vw] leading-none uppercase font-bold text-[#E8E8E3] tracking-tighter text-center">
+          <h2 className="font-heading text-[11vw] md:text-[8vw] leading-none uppercase font-bold text-[#E8E8E3] tracking-tighter text-center">
             My Work
           </h2>
           <p className="text-[#E8E8E3]/50 mt-6 max-w-lg text-center font-body text-lg uppercase tracking-widest font-bold">

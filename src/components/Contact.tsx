@@ -47,7 +47,7 @@ export default function Contact() {
           className="text-center mb-24 flex flex-col items-center"
         >
           <div className="w-1px h-24 bg-gradient-to-b from-transparent to-white/20 mb-8 block mx-auto"></div>
-          <h2 className="font-heading text-6xl md:text-[8vw] leading-none uppercase font-black tracking-tighter mb-6">
+          <h2 className="font-heading text-[11vw] md:text-[8vw] leading-none uppercase font-black tracking-tighter mb-6">
             Transmit
           </h2>
           <p className="text-white/40 text-lg uppercase tracking-widest font-bold max-w-lg">

@@ -48,7 +48,7 @@ export default function TestimonialsClient({ testimonials }: { testimonials: any
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col items-center mb-24"
         >
-          <h2 className="font-heading text-6xl md:text-[8vw] leading-none uppercase font-bold text-[#E8E8E3] tracking-tighter text-center">
+          <h2 className="font-heading text-[11vw] md:text-[8vw] leading-none uppercase font-bold text-[#E8E8E3] tracking-tighter text-center">
             Word On The Street
           </h2>
         </motion.div>

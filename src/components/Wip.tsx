@@ -80,7 +80,7 @@ export default function Wip() {
             Experiment // 001
           </motion.div>
           
-          <motion.h2 style={{ y: titleY, translateZ: 80 }} className="font-heading text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter mb-8">
+          <motion.h2 style={{ y: titleY, translateZ: 80 }} className="font-heading text-[12vw] md:text-8xl lg:text-9xl font-black uppercase tracking-tighter mb-8">
             R<span className="text-[#0B0B0A]/30">0</span>gue
           </motion.h2>
           

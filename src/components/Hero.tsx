@@ -66,7 +66,7 @@ export default function Hero() {
           variants={container}
           initial="hidden"
           animate="visible"
-          className="font-heading text-6xl md:text-9xl lg:text-[11rem] leading-[0.8] font-black text-center tracking-tighter w-full flex justify-center flex-wrap"
+          className="font-heading text-[13vw] md:text-9xl lg:text-[11rem] leading-[0.8] font-black text-center tracking-tighter w-full flex justify-center flex-wrap"
         >
           {title.map((char, index) => (
             <motion.span 
