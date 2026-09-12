@@ -143,6 +143,20 @@ export default function Projects() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 mb-40">
           <ProjectCard 
             images={[
+              "/videoport/yellolog/1.png",
+              "/videoport/yellolog/2.png",
+              "/videoport/yellolog/3.png",
+              "/videoport/yellolog/4.png",
+              "/videoport/yellolog/5.png"
+            ]}
+            title="Y'ello Log"
+            tags={["Dashboard", "Auth", "Educational"]}
+            link="https://e-logbook-cyan.vercel.app/"
+            className="md:col-span-12 h-[60vh] md:h-[80vh]"
+          />
+
+          <ProjectCard 
+            images={[
               "/videoport/getmyshade/Getmyshadeapptour1.png",
               "/videoport/getmyshade/Getmyshadeapptour2.png",
               "/videoport/getmyshade/Getmyshadeapptour3.png",
