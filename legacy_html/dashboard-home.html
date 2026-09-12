@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta_Verse | Dashboard</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #00f5ff;
+            --glow: rgba(0, 245, 255, 0.4);
+            --text: #fff;
+            --muted: rgba(255, 255, 255, 0.4);
+            --font-h: 'Syne', sans-serif;
+            --font-b: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-b);
+            font-size: 15px;
+            line-height: 1.5;
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        /* ── Navbar ── */
+        .dash-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 32px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dash-nav .logo {
+            font-family: var(--font-h);
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .dash-nav .logo .dot {
+            color: var(--accent);
+            text-shadow: 0 0 8px var(--accent);
+        }
+
+        .dash-nav .nav-center {
+            font-family: var(--font-h);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--accent);
+            text-shadow: 0 0 8px rgba(0, 245, 255, 0.3);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .btn-logout {
+            padding: 8px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            font-family: var(--font-h);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn-logout:hover {
+            border-color: #ff3b30;
+            color: #ff3b30;
+            box-shadow: 0 0 12px rgba(255, 59, 48, 0.2);
+        }
+
+        /* ── Grid Layout ── */
+        .dash-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            padding: 28px 32px;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            .dash-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── Module Card ── */
+        .module {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            min-height: 320px;
+            min-width: 0;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: moduleFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes moduleFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dash-grid>.module:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .dash-grid>.module:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .dash-grid>.module:nth-child(3) {
+            animation-delay: 0.18s;
+        }
+
+        .dash-grid>.module:nth-child(4) {
+            animation-delay: 0.26s;
+        }
+
+        .dash-grid>.module:nth-child(5) {
+            animation-delay: 0.34s;
+        }
+
+        .dash-grid>.module:nth-child(6) {
+            animation-delay: 0.42s;
+        }
+
+        .dash-grid>.module:nth-child(7) {
+            animation-delay: 0.5s;
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .module-title {
+            font-family: var(--font-h);
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .module-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* ── Buttons ── */
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+        }
+
+        .btn-icon:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn-add {
+            padding: 6px 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 245, 255, 0.35);
+            background: rgba(0, 245, 255, 0.05);
+            color: var(--accent);
+            font-family: var(--font-h);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn-add:hover {
+            background: rgba(0, 245, 255, 0.12);
+            box-shadow: 0 0 14px rgba(0, 245, 255, 0.25);
+        }
+
+        /* ── Table ── */
+        .table-wrap {
+            overflow-x: auto;
+            flex: 1;
+            min-width: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 10px 12px;
+            font-family: var(--font-h);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 10px 12px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.8);
+            white-space: nowrap;
+        }
+
+        tbody td.cell-truncate {
+            max-width: 220px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        tbody tr:hover {
+            background: rgba(0, 245, 255, 0.02);
+        }
+
+        tbody tr {
+            animation: rowFadeIn 0.4s ease-out backwards;
+        }
+
+        tbody tr.row-removing {
+            animation: rowFadeOut 0.25s ease-in forwards;
+        }
+
+        @keyframes rowFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes rowFadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(12px) scale(0.98);
+            }
+        }
+
+        .empty-state {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-style: italic;
+            min-height: 120px;
+        }
+
+        /* ── Status Badges ── */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .badge-pending {
+            background: rgba(255, 204, 0, 0.12);
+            color: #fc0;
+            border: 1px solid rgba(255, 204, 0, 0.25);
+        }
+
+        .badge-progress {
+            background: rgba(0, 245, 255, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(0, 245, 255, 0.25);
+        }
+
+        .badge-completed {
+            background: rgba(48, 209, 88, 0.1);
+            color: #30d158;
+            border: 1px solid rgba(48, 209, 88, 0.25);
+        }
+
+        .badge-new {
+            background: rgba(94, 92, 230, 0.12);
+            color: #5e5ce6;
+            border: 1px solid rgba(94, 92, 230, 0.25);
+        }
+
+        .badge-lost {
+            background: rgba(255, 59, 48, 0.1);
+            color: #ff3b30;
+            border: 1px solid rgba(255, 59, 48, 0.25);
+        }
+
+        /* ── Status Select (inline editable status) ── */
+        .status-select {
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding-right: 22px !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6' viewBox='0 0 8 6'%3E%3Cpath d='M1 1l3 3 3-3' stroke='%23888' stroke-width='1.3' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .status-select:hover,
+        .status-select:focus {
+            box-shadow: 0 0 10px rgba(0, 245, 255, 0.15);
+        }
+
+        .status-select option {
+            background: #111;
+            color: #fff;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        /* ── Row Actions ── */
+        .row-actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .btn-icon.btn-danger:hover {
+            border-color: #ff3b30;
+            color: #ff3b30;
+            box-shadow: 0 0 10px rgba(255, 59, 48, 0.2);
+        }
+
+        .btn-convert {
+            padding: 4px 10px;
+            border-radius: 50px;
+            border: 1px solid rgba(48, 209, 88, 0.35);
+            background: rgba(48, 209, 88, 0.06);
+            color: #30d158;
+            font-family: var(--font-h);
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .btn-convert:hover {
+            background: rgba(48, 209, 88, 0.15);
+            box-shadow: 0 0 10px rgba(48, 209, 88, 0.2);
+        }
+
+        /* ── Search Input ── */
+        .module-search {
+            width: 100%;
+            padding: 9px 14px;
+            margin-bottom: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: var(--font-b);
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .module-search:focus {
+            border-color: var(--accent);
+        }
+
+        .module-search::placeholder {
+            color: var(--muted);
+        }
+
+        /* ── Overview Stat Tiles ── */
+        .stat-tiles {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .stat-tile {
+            background: rgba(0, 245, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px 16px;
+            text-align: center;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .stat-tile.updating {
+            border-color: rgba(0, 245, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.15);
+        }
+
+        .stat-value {
+            font-family: var(--font-h);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(0, 245, 255, 0.2);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+
+        @media (max-width: 700px) {
+            .stat-tiles {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ── Star Rating ── */
+        .star-rating {
+            color: var(--accent);
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .star-rating .star-empty {
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* ── Publish Toggle ── */
+        .badge-toggle {
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-b);
+        }
+
+        /* ── Quick Replies ── */
+        .quick-replies {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .qr-item {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+        }
+
+        .qr-item-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .qr-item-title {
+            font-family: var(--font-h);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+        }
+
+        .qr-copy-btn {
+            padding: 4px 12px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            font-family: var(--font-h);
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .qr-copy-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .qr-copy-btn.copied {
+            border-color: #30d158;
+            color: #30d158;
+        }
+
+        .qr-item-text {
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        /* ── Quick Links ── */
+        .quick-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            flex: 1;
+            align-content: start;
+        }
+
+        .ql-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            font-family: var(--font-h);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .ql-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 18px rgba(0, 245, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #111;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 32px;
+            width: 90%;
+            max-width: 480px;
+            animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal h3 {
+            font-family: var(--font-h);
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .modal .form-group {
+            margin-bottom: 18px;
+        }
+
+        .modal label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+
+        .modal input,
+        .modal select {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: var(--font-b);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .modal input:focus,
+        .modal select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 245, 255, 0.12);
+        }
+
+        .modal select option {
+            background: #111;
+            color: #fff;
+        }
+
+        .modal-btns {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .modal-btns button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: var(--font-h);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        .btn-cancel:hover {
+            border-color: #ff3b30;
+            color: #ff3b30;
+        }
+
+        .btn-save {
+            background: var(--accent);
+            border: none;
+            color: #0a0a0a;
+        }
+
+        .btn-save:hover {
+            background: #33f7ff;
+            box-shadow: 0 6px 18px rgba(0, 245, 255, 0.35);
+        }
+
+        @media (max-width: 600px) {
+            .dash-nav {
+                padding: 14px 16px;
+            }
+
+            .dash-nav .nav-center {
+                display: none;
+            }
+
+            .dash-grid {
+                padding: 16px;
+                gap: 16px;
+            }
+
+            .quick-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="dash-nav">
+        <div class="logo">DELTA_VERSE<span class="dot">.</span></div>
+        <span class="nav-center">Analytics</span>
+        <button class="btn-logout" id="btn-logout">Log Out</button>
+    </nav>
+
+    <!-- Dashboard Grid -->
+    <div class="dash-grid">
+        <!-- Module 0: Overview -->
+        <div class="module" id="mod-overview" style="grid-column: 1 / -1; min-height: auto;">
+            <div class="module-header">
+                <h2 class="module-title">Overview</h2>
+            </div>
+            <div class="stat-tiles">
+                <div class="stat-tile">
+                    <div class="stat-value" id="stat-revenue">$0</div>
+                    <div class="stat-label">Revenue (Completed)</div>
+                </div>
+                <div class="stat-tile">
+                    <div class="stat-value" id="stat-open-enquiries">0</div>
+                    <div class="stat-label">Open Enquiries</div>
+                </div>
+                <div class="stat-tile">
+                    <div class="stat-value" id="stat-active-orders">0</div>
+                    <div class="stat-label">Active Orders</div>
+                </div>
+                <div class="stat-tile">
+                    <div class="stat-value" id="stat-win-rate">0%</div>
+                    <div class="stat-label">Win Rate</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 1: Bookings -->
+        <div class="module" id="mod-bookings">
+            <div class="module-header">
+                <h2 class="module-title">Bookings</h2>
+                <div class="module-actions">
+                    <button class="btn-icon" onclick="loadBookings()" title="Refresh">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 2v6h-6" />
+                            <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+                            <path d="M3 22v-6h6" />
+                            <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <input type="text" class="module-search" id="search-bookings" placeholder="Search bookings...">
+            <div class="table-wrap" id="bookings-body">
+                <div class="empty-state">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Module 2: Enquiries -->
+        <div class="module" id="mod-enquiries">
+            <div class="module-header">
+                <h2 class="module-title">Enquiries</h2>
+                <div class="module-actions">
+                    <button class="btn-icon" onclick="loadEnquiries()" title="Refresh">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 2v6h-6" />
+                            <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+                            <path d="M3 22v-6h6" />
+                            <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <input type="text" class="module-search" id="search-enquiries" placeholder="Search enquiries...">
+            <div class="table-wrap" id="enquiries-body">
+                <div class="empty-state">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Module 3: Orders -->
+        <div class="module" id="mod-orders">
+            <div class="module-header">
+                <h2 class="module-title">Orders</h2>
+                <div class="module-actions">
+                    <button class="btn-add" id="btn-add-order">+ Add Order</button>
+                    <button class="btn-icon" onclick="loadOrders()" title="Refresh">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 2v6h-6" />
+                            <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+                            <path d="M3 22v-6h6" />
+                            <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <input type="text" class="module-search" id="search-orders" placeholder="Search orders...">
+            <div class="table-wrap" id="orders-body">
+                <div class="empty-state">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Module 4: Testimonials -->
+        <div class="module" id="mod-testimonials">
+            <div class="module-header">
+                <h2 class="module-title">Testimonials</h2>
+                <div class="module-actions">
+                    <button class="btn-add" id="btn-add-testimonial">+ Add Testimonial</button>
+                    <button class="btn-icon" onclick="loadTestimonials()" title="Refresh">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 2v6h-6" />
+                            <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+                            <path d="M3 22v-6h6" />
+                            <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <input type="text" class="module-search" id="search-testimonials" placeholder="Search testimonials...">
+            <div class="table-wrap" id="testimonials-body">
+                <div class="empty-state">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Module 5: Quick Replies -->
+        <div class="module" id="mod-quick-replies">
+            <div class="module-header">
+                <h2 class="module-title">Quick Replies</h2>
+            </div>
+            <div class="quick-replies" id="quick-replies-list"></div>
+        </div>
+
+        <!-- Module 6: Quick Links -->
+        <div class="module">
+            <div class="module-header">
+                <h2 class="module-title">Quick Links</h2>
+            </div>
+            <div class="quick-links">
+                <a href="index.html" target="_blank" class="ql-btn">View Portfolio</a>
+                <a href="https://www.upwork.com/freelancers/~01bfc388a3d46826ca" target="_blank"
+                    rel="noopener noreferrer" class="ql-btn">Upwork Profile</a>
+                <a href="https://www.fiverr.com/tri_verse?public_mode=true" target="_blank" rel="noopener noreferrer"
+                    class="ql-btn">Fiverr Profile</a>
+                <a href="mailto:deltaverse300@gmail.com" class="ql-btn">Send Email</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Testimonial Modal -->
+    <div class="modal-overlay" id="testimonial-modal">
+        <div class="modal">
+            <h3>New Testimonial</h3>
+            <form id="testimonial-form">
+                <div class="form-group">
+                    <label for="t-client">Client Name</label>
+                    <input type="text" id="t-client" required>
+                </div>
+                <div class="form-group">
+                    <label for="t-title">Client Title / Company</label>
+                    <input type="text" id="t-title" placeholder="e.g. Founder, Acme Inc.">
+                </div>
+                <div class="form-group">
+                    <label for="t-project">Project</label>
+                    <input type="text" id="t-project" placeholder="e.g. GetMyShade">
+                </div>
+                <div class="form-group">
+                    <label for="t-quote">Quote</label>
+                    <textarea id="t-quote" rows="4" required
+                        style="width:100%;padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font-b);font-size:0.9rem;outline:none;resize:vertical;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="t-rating">Rating</label>
+                    <select id="t-rating" required>
+                        <option value="5" selected>5 stars</option>
+                        <option value="4">4 stars</option>
+                        <option value="3">3 stars</option>
+                        <option value="2">2 stars</option>
+                        <option value="1">1 star</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="t-published">Status</label>
+                    <select id="t-published" required>
+                        <option value="false">Draft (hidden from portfolio)</option>
+                        <option value="true">Published (visible on portfolio)</option>
+                    </select>
+                </div>
+                <div class="modal-btns">
+                    <button type="button" class="btn-cancel" id="btn-cancel-testimonial">Cancel</button>
+                    <button type="submit" class="btn-save">Save Testimonial</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Order Modal -->
+    <div class="modal-overlay" id="order-modal">
+        <div class="modal">
+            <h3>New Order</h3>
+            <form id="order-form">
+                <div class="form-group">
+                    <label for="o-client">Client Name</label>
+                    <input type="text" id="o-client" required>
+                </div>
+                <div class="form-group">
+                    <label for="o-project">Project Name</label>
+                    <input type="text" id="o-project" required>
+                </div>
+                <div class="form-group">
+                    <label for="o-platform">Platform</label>
+                    <select id="o-platform" required>
+                        <option value="" disabled selected>Select platform</option>
+                        <option value="Upwork">Upwork</option>
+                        <option value="Fiverr">Fiverr</option>
+                        <option value="Direct">Direct</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="o-status">Status</label>
+                    <select id="o-status" required>
+                        <option value="" disabled selected>Select status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="o-deadline">Deadline</label>
+                    <input type="date" id="o-deadline" required>
+                </div>
+                <div class="form-group">
+                    <label for="o-amount">Amount ($)</label>
+                    <input type="number" id="o-amount" min="0" step="0.01" required>
+                </div>
+                <div class="modal-btns">
+                    <button type="button" class="btn-cancel" id="btn-cancel-order">Cancel</button>
+                    <button type="submit" class="btn-save">Save Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ── Supabase Init ──
+        const SUPA_URL = 'https://pltkvkpiqmgkjzbjylsw.supabase.co';
+        const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdGt2a3BpcW1na2p6Ymp5bHN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NDc4NDEsImV4cCI6MjA5NjIyMzg0MX0.BRWpHWHh_bqAOPjqvTHxnwPhFDEvSc6t4yfsU8Yvy-0';
+        const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+        // ── In-memory caches (so search filtering never re-hits Supabase) ──
+        let bookingsData = [];
+        let enquiriesData = [];
+        let ordersData = [];
+        let testimonialsData = [];
+
+        const STATUS_OPTIONS = {
+            bookings: ['Pending', 'Confirmed', 'Completed', 'Cancelled'],
+            enquiries: ['New', 'Contacted', 'Proposal Sent', 'Won', 'Lost'],
+            orders: ['Pending', 'In Progress', 'Completed']
+        };
+
+        // ── Quick Replies — edit this array to change your canned responses ──
+        const QUICK_REPLIES = [
+            {
+                title: 'Accepted Proposal',
+                text: `Hi {name},\n\nThanks for the go-ahead! I'll get started right away and keep you posted on progress. You can expect a first update within 2-3 days.\n\nTalk soon,\nDelta_Verse`
+            },
+            {
+                title: 'Need More Info',
+                text: `Hi {name},\n\nThanks for reaching out! Before I can put together an accurate estimate, could you share a bit more detail on:\n- The core problem you're trying to solve\n- Any must-have features or integrations\n- Your target timeline\n\nLooking forward to hearing more.\n\nBest,\nDelta_Verse`
+            },
+            {
+                title: 'Politely Decline',
+                text: `Hi {name},\n\nThanks so much for thinking of me for this. Unfortunately this isn't the right fit for me at the moment, but I'd be happy to point you toward someone who might help, or reconnect if your scope changes.\n\nAll the best,\nDelta_Verse`
+            },
+            {
+                title: 'Follow-Up',
+                text: `Hi {name},\n\nJust following up on my last message — happy to answer any questions or hop on a quick call if that's easier. Let me know what works!\n\nBest,\nDelta_Verse`
+            }
+        ];
+
+        // ── Session Guard ──
+        (async () => {
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) { window.location.href = 'dashboard.html'; return; }
+            document.body.classList.add('loaded');
+            loadBookings();
+            loadEnquiries();
+            loadOrders();
+            loadTestimonials();
+            renderQuickReplies();
+        })();
+
+        // ── Log Out ──
+        document.getElementById('btn-logout').addEventListener('click', async () => {
+            await sb.auth.signOut();
+            window.location.href = 'dashboard.html';
+        });
+
+        // ── Helper: badge class ──
+        function badgeClass(status) {
+            if (!status) return 'badge';
+            const s = status.toLowerCase();
+            if (s === 'won' || s === 'confirmed' || s.includes('complet') || s === 'done') return 'badge badge-completed';
+            if (s === 'lost' || s === 'cancelled') return 'badge badge-lost';
+            if (s.includes('progress') || s === 'active' || s === 'contacted') return 'badge badge-progress';
+            if (s.includes('proposal')) return 'badge badge-new';
+            if (s.includes('pending') || s === 'waiting') return 'badge badge-pending';
+            if (s === 'new' || s === 'unread') return 'badge badge-new';
+            return 'badge badge-pending';
+        }
+
+        // ── Helper: format date ──
+        function fmtDate(d) {
+            if (!d) return '—';
+            const dt = new Date(d);
+            return dt.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        }
+
+        // ── Helper: escape HTML ──
+        function esc(v) { return v ? String(v).replace(/</g, '&lt;').replace(/>/g, '&gt;') : '—'; }
+
+        // ── Helper: status select markup ──
+        function statusSelect(table, id, current) {
+            const opts = STATUS_OPTIONS[table] || [];
+            return `<select class="status-select ${badgeClass(current)}" data-table="${table}" data-id="${id}">
+                ${opts.map(o => `<option value="${o}" ${o === current ? 'selected' : ''}>${o}</option>`).join('')}
+            </select>`;
+        }
+
+        // ── Helper: star rating markup ──
+        function starRating(n) {
+            const rating = Number(n) || 0;
+            let out = '';
+            for (let i = 1; i <= 5; i++) {
+                out += i <= rating ? '★' : '<span class="star-empty">★</span>';
+            }
+            return `<span class="star-rating">${out}</span>`;
+        }
+
+        // ── Helper: publish toggle markup ──
+        function publishToggle(id, isPublished) {
+            return `<button class="badge badge-toggle ${isPublished ? 'badge-completed' : 'badge-pending'}"
+                data-toggle-id="${id}" data-toggle-value="${isPublished}">
+                ${isPublished ? 'Published' : 'Draft'}
+            </button>`;
+        }
+
+        // ── Helper: row actions markup ──
+        function rowActions(table, id, extra = '') {
+            return `<div class="row-actions">
+                ${extra}
+                <button class="btn-icon btn-danger" data-delete-table="${table}" data-delete-id="${id}" title="Delete">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </button>
+            </div>`;
+        }
+
+        // ── Generic row-level event delegation (status change + delete + convert) ──
+        function wireRowEvents(container, table, reloadFn) {
+            container.querySelectorAll('.status-select').forEach(sel => {
+                sel.addEventListener('change', async () => {
+                    const id = sel.getAttribute('data-id');
+                    const newStatus = sel.value;
+                    sel.disabled = true;
+                    try {
+                        const { error } = await sb.from(table).update({ status: newStatus }).eq('id', id);
+                        if (error) throw error;
+                        sel.className = `status-select ${badgeClass(newStatus)}`;
+                        await reloadFn();
+                    } catch (err) {
+                        console.error(`${table} status update error:`, err);
+                        alert('Failed to update status. Check console.');
+                    } finally {
+                        sel.disabled = false;
+                    }
+                });
+            });
+
+            container.querySelectorAll('[data-delete-table]').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const t = btn.getAttribute('data-delete-table');
+                    const id = btn.getAttribute('data-delete-id');
+                    if (!confirm('Delete this row? This cannot be undone.')) return;
+                    const row = btn.closest('tr');
+                    try {
+                        if (row) {
+                            row.classList.add('row-removing');
+                            await new Promise(resolve => setTimeout(resolve, 220));
+                        }
+                        const { error } = await sb.from(t).delete().eq('id', id);
+                        if (error) throw error;
+                        await reloadFn();
+                    } catch (err) {
+                        console.error(`${t} delete error:`, err);
+                        alert('Failed to delete. Check console.');
+                        if (row) row.classList.remove('row-removing');
+                    }
+                });
+            });
+
+            container.querySelectorAll('[data-convert-id]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const row = enquiriesData.find(r => String(r.id) === btn.getAttribute('data-convert-id'));
+                    if (!row) return;
+                    document.getElementById('o-client').value = row.client_name || '';
+                    document.getElementById('o-project').value = '';
+                    document.getElementById('o-platform').value = 'Direct';
+                    document.getElementById('o-status').value = 'Pending';
+                    modal.classList.add('active');
+                });
+            });
+
+            container.querySelectorAll('[data-toggle-id]').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const id = btn.getAttribute('data-toggle-id');
+                    const newValue = btn.getAttribute('data-toggle-value') !== 'true';
+                    btn.disabled = true;
+                    try {
+                        const { error } = await sb.from(table).update({ is_published: newValue }).eq('id', id);
+                        if (error) throw error;
+                        await reloadFn();
+                    } catch (err) {
+                        console.error(`${table} publish toggle error:`, err);
+                        alert('Failed to update. Check console.');
+                    } finally {
+                        btn.disabled = false;
+                    }
+                });
+            });
+        }
+
+        // ── Search filtering (client-side, no re-fetch) ──
+        function matchesSearch(row, term) {
+            if (!term) return true;
+            const haystack = Object.values(row).join(' ').toLowerCase();
+            return haystack.includes(term.toLowerCase());
+        }
+
+        document.getElementById('search-bookings').addEventListener('input', (e) => {
+            renderBookings(bookingsData.filter(r => matchesSearch(r, e.target.value)));
+        });
+        document.getElementById('search-enquiries').addEventListener('input', (e) => {
+            renderEnquiries(enquiriesData.filter(r => matchesSearch(r, e.target.value)));
+        });
+        document.getElementById('search-orders').addEventListener('input', (e) => {
+            renderOrders(ordersData.filter(r => matchesSearch(r, e.target.value)));
+        });
+        document.getElementById('search-testimonials').addEventListener('input', (e) => {
+            renderTestimonials(testimonialsData.filter(r => matchesSearch(r, e.target.value)));
+        });
+
+        // ── Load Bookings ──
+        async function loadBookings() {
+            const wrap = document.getElementById('bookings-body');
+            try {
+                const { data, error } = await sb.from('bookings').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+                bookingsData = data || [];
+                renderBookings(bookingsData);
+                updateStatTiles();
+            } catch (e) {
+                console.error('Bookings error:', e);
+                wrap.innerHTML = '<div class="empty-state">No data yet</div>';
+            }
+        }
+
+        function renderBookings(data) {
+            const wrap = document.getElementById('bookings-body');
+            if (!data || data.length === 0) {
+                wrap.innerHTML = '<div class="empty-state">No data yet</div>';
+                return;
+            }
+            wrap.innerHTML = `<table><thead><tr>
+                <th>Client Name</th><th>Email</th><th>Meeting Date</th><th>Status</th><th>Notes</th><th>Actions</th>
+            </tr></thead><tbody>${data.map((r, i) => `<tr style="animation-delay: ${Math.min(i * 0.05, 0.5)}s">
+                <td>${esc(r.client_name)}</td><td>${esc(r.email)}</td>
+                <td>${fmtDate(r.meeting_date)}</td>
+                <td>${statusSelect('bookings', r.id, r.status)}</td>
+                <td class="cell-truncate">${esc(r.notes)}</td>
+                <td>${rowActions('bookings', r.id)}</td>
+            </tr>`).join('')}</tbody></table>`;
+            wireRowEvents(wrap, 'bookings', loadBookings);
+        }
+
+        // ── Load Enquiries ──
+        async function loadEnquiries() {
+            const wrap = document.getElementById('enquiries-body');
+            try {
+                const { data, error } = await sb.from('enquiries').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+                enquiriesData = data || [];
+                renderEnquiries(enquiriesData);
+                updateStatTiles();
+            } catch (e) {
+                console.error('Enquiries error:', e);
+                wrap.innerHTML = '<div class="empty-state">No data yet</div>';
+            }
+        }
+
+        function renderEnquiries(data) {
+            const wrap = document.getElementById('enquiries-body');
+            if (!data || data.length === 0) {
+                wrap.innerHTML = '<div class="empty-state">No data yet</div>';
+                return;
+            }
+            wrap.innerHTML = `<table><thead><tr>
+                <th>Client Name</th><th>Email</th><th>Project Brief</th><th>Budget</th><th>Status</th><th>Date</th><th>Actions</th>
+            </tr></thead><tbody>${data.map((r, i) => `<tr style="animation-delay: ${Math.min(i * 0.05, 0.5)}s">
+                <td>${esc(r.client_name)}</td><td>${esc(r.email)}</td>
+                <td class="cell-truncate">${esc(r.project_brief)}</td><td>${esc(r.budget)}</td>
+                <td>${statusSelect('enquiries', r.id, r.status)}</td>
+                <td>${fmtDate(r.created_at)}</td>
+                <td>${rowActions('enquiries', r.id, (r.status || '').toLowerCase() === 'won' ? `<button class="btn-convert" data-convert-id="${r.id}">→ Order</button>` : '')}</td>
+            </tr>`).join('')}</tbody></table>`;
+            wireRowEvents(wrap, 'enquiries', loadEnquiries);
+        }
+
+        // ── Load Orders ──
+        async function loadOrders() {
+            const wrap = document.getElementById('orders-body');
+            try {
+                const { data, error } = await sb.from('orders').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+                ordersData = data || [];
+                renderOrders(ordersData);
+                updateStatTiles();
+            } catch (e) {
+                console.error('Orders error:', e);
+                wrap.innerHTML = '<div class="empty-state">No data yet</div>';
+            }
+        }
+
+        function renderOrders(data) {
+            const wrap = document.getElementById('orders-body');
+            if (!data || data.length === 0) {
+                wrap.innerHTML = '<div class="empty-state">No data yet</div>';
+                return;
+            }
+            wrap.innerHTML = `<table><thead><tr>
+                <th>Client Name</th><th>Project Name</th><th>Platform</th><th>Status</th><th>Deadline</th><th>Amount</th><th>Actions</th>
+            </tr></thead><tbody>${data.map((r, i) => `<tr style="animation-delay: ${Math.min(i * 0.05, 0.5)}s">
+                <td>${esc(r.client_name)}</td><td>${esc(r.project_name)}</td>
+                <td>${esc(r.platform)}</td>
+                <td>${statusSelect('orders', r.id, r.status)}</td>
+                <td>${fmtDate(r.deadline)}</td>
+                <td>$${r.amount ? Number(r.amount).toFixed(2) : '0.00'}</td>
+                <td>${rowActions('orders', r.id)}</td>
+            </tr>`).join('')}</tbody></table>`;
+            wireRowEvents(wrap, 'orders', loadOrders);
+        }
+
+        // ── Load Testimonials ──
+        async function loadTestimonials() {
+            const wrap = document.getElementById('testimonials-body');
+            try {
+                const { data, error } = await sb.from('testimonials').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+                testimonialsData = data || [];
+                renderTestimonials(testimonialsData);
+            } catch (e) {
+                console.error('Testimonials error:', e);
+                wrap.innerHTML = '<div class="empty-state">No data yet</div>';
+            }
+        }
+
+        function renderTestimonials(data) {
+            const wrap = document.getElementById('testimonials-body');
+            if (!data || data.length === 0) {
+                wrap.innerHTML = '<div class="empty-state">No data yet</div>';
+                return;
+            }
+            wrap.innerHTML = `<table><thead><tr>
+                <th>Client Name</th><th>Project</th><th>Quote</th><th>Rating</th><th>Status</th><th>Actions</th>
+            </tr></thead><tbody>${data.map((r, i) => `<tr style="animation-delay: ${Math.min(i * 0.05, 0.5)}s">
+                <td>${esc(r.client_name)}${r.client_title ? `<br><span style="color:var(--muted);font-size:0.75rem;">${esc(r.client_title)}</span>` : ''}</td>
+                <td>${esc(r.project_name)}</td>
+                <td class="cell-truncate">${esc(r.quote)}</td>
+                <td>${starRating(r.rating)}</td>
+                <td>${publishToggle(r.id, r.is_published)}</td>
+                <td>${rowActions('testimonials', r.id)}</td>
+            </tr>`).join('')}</tbody></table>`;
+            wireRowEvents(wrap, 'testimonials', loadTestimonials);
+        }
+
+        // ── Quick Replies ──
+        function renderQuickReplies() {
+            const wrap = document.getElementById('quick-replies-list');
+            if (!wrap) return;
+            wrap.innerHTML = QUICK_REPLIES.map((qr, i) => `
+                <div class="qr-item">
+                    <div class="qr-item-header">
+                        <span class="qr-item-title">${esc(qr.title)}</span>
+                        <button class="qr-copy-btn" data-qr-index="${i}">Copy</button>
+                    </div>
+                    <div class="qr-item-text">${esc(qr.text)}</div>
+                </div>
+            `).join('');
+
+            wrap.querySelectorAll('.qr-copy-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const qr = QUICK_REPLIES[Number(btn.getAttribute('data-qr-index'))];
+                    try {
+                        await navigator.clipboard.writeText(qr.text);
+                        btn.textContent = 'Copied!';
+                        btn.classList.add('copied');
+                        setTimeout(() => {
+                            btn.textContent = 'Copy';
+                            btn.classList.remove('copied');
+                        }, 1500);
+                    } catch (err) {
+                        console.error('Clipboard error:', err);
+                        alert('Could not copy — your browser may be blocking clipboard access.');
+                    }
+                });
+            });
+        }
+
+        // ── Count-up animation for stat tile numbers ──
+        function animateCountUp(el, endValue, { prefix = '', suffix = '', decimals = 0 } = {}) {
+            const startValue = parseFloat(el.dataset.rawValue || '0') || 0;
+            if (startValue === endValue) return;
+            const duration = 700;
+            const startTime = performance.now();
+            const tile = el.closest('.stat-tile');
+            if (tile) tile.classList.add('updating');
+
+            function tick(now) {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = startValue + (endValue - startValue) * eased;
+                el.textContent = `${prefix}${current.toFixed(decimals)}${suffix}`;
+                if (progress < 1) {
+                    requestAnimationFrame(tick);
+                } else {
+                    el.textContent = `${prefix}${endValue.toFixed(decimals)}${suffix}`;
+                    el.dataset.rawValue = endValue;
+                    if (tile) tile.classList.remove('updating');
+                }
+            }
+            requestAnimationFrame(tick);
+        }
+
+        // ── Overview Stat Tiles ──
+        function updateStatTiles() {
+            const revenue = ordersData
+                .filter(o => (o.status || '').toLowerCase() === 'completed')
+                .reduce((sum, o) => sum + (Number(o.amount) || 0), 0);
+
+            const openEnquiries = enquiriesData.filter(e => (e.status || '').toLowerCase() === 'new').length;
+            const activeOrders = ordersData.filter(o => (o.status || '').toLowerCase() === 'in progress').length;
+
+            const decided = enquiriesData.filter(e => ['won', 'lost'].includes((e.status || '').toLowerCase()));
+            const won = decided.filter(e => (e.status || '').toLowerCase() === 'won').length;
+            const winRate = decided.length ? Math.round((won / decided.length) * 100) : 0;
+
+            animateCountUp(document.getElementById('stat-revenue'), revenue, { prefix: '$', decimals: 2 });
+            animateCountUp(document.getElementById('stat-open-enquiries'), openEnquiries, { decimals: 0 });
+            animateCountUp(document.getElementById('stat-active-orders'), activeOrders, { decimals: 0 });
+            animateCountUp(document.getElementById('stat-win-rate'), winRate, { suffix: '%', decimals: 0 });
+        }
+
+        // ── Add Order Modal ──
+        const modal = document.getElementById('order-modal');
+        document.getElementById('btn-add-order').addEventListener('click', () => modal.classList.add('active'));
+        document.getElementById('btn-cancel-order').addEventListener('click', () => modal.classList.remove('active'));
+        modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+
+        document.getElementById('order-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const saveBtn = e.target.querySelector('.btn-save');
+            saveBtn.textContent = 'Saving...';
+            saveBtn.disabled = true;
+            try {
+                const { error } = await sb.from('orders').insert({
+                    client_name: document.getElementById('o-client').value,
+                    project_name: document.getElementById('o-project').value,
+                    platform: document.getElementById('o-platform').value,
+                    status: document.getElementById('o-status').value,
+                    deadline: document.getElementById('o-deadline').value,
+                    amount: parseFloat(document.getElementById('o-amount').value)
+                });
+                if (error) throw error;
+                modal.classList.remove('active');
+                e.target.reset();
+                loadOrders();
+            } catch (err) {
+                console.error('Insert error:', err);
+                alert('Failed to save order. Check console.');
+            } finally {
+                saveBtn.textContent = 'Save Order';
+                saveBtn.disabled = false;
+            }
+        });
+
+        // ── Add Testimonial Modal ──
+        const testimonialModal = document.getElementById('testimonial-modal');
+        document.getElementById('btn-add-testimonial').addEventListener('click', () => testimonialModal.classList.add('active'));
+        document.getElementById('btn-cancel-testimonial').addEventListener('click', () => testimonialModal.classList.remove('active'));
+        testimonialModal.addEventListener('click', (e) => { if (e.target === testimonialModal) testimonialModal.classList.remove('active'); });
+
+        document.getElementById('testimonial-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const saveBtn = e.target.querySelector('.btn-save');
+            saveBtn.textContent = 'Saving...';
+            saveBtn.disabled = true;
+            try {
+                const { error } = await sb.from('testimonials').insert({
+                    client_name: document.getElementById('t-client').value,
+                    client_title: document.getElementById('t-title').value,
+                    project_name: document.getElementById('t-project').value,
+                    quote: document.getElementById('t-quote').value,
+                    rating: parseInt(document.getElementById('t-rating').value, 10),
+                    is_published: document.getElementById('t-published').value === 'true'
+                });
+                if (error) throw error;
+                testimonialModal.classList.remove('active');
+                e.target.reset();
+                loadTestimonials();
+            } catch (err) {
+                console.error('Insert error:', err);
+                alert('Failed to save testimonial. Check console.');
+            } finally {
+                saveBtn.textContent = 'Save Testimonial';
+                saveBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta_Verse | Mission Control</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="favicon.png" type="image/png">
+
+    <!-- Google Fonts: Syne for Headings, Inter for Body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --accent-color: #00f5ff;
+            --accent-glow: rgba(0, 245, 255, 0.4);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --font-heading: 'Syne', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+
+            /* Animated Grid Background */
+            background-image:
+                linear-gradient(rgba(0, 245, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center;
+            animation: gridMove 30s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 50px 50px;
+            }
+        }
+
+        /* Ambient glow radial vignetting */
+        .ambient-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 20%, #0a0a0a 85%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Subtle scanning HUD line */
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to bottom, transparent, rgba(0, 245, 255, 0.15), transparent);
+            opacity: 0.7;
+            animation: scan 6s linear infinite;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% {
+                top: -10%;
+            }
+
+            100% {
+                top: 110%;
+            }
+        }
+
+        /* Login Container Card */
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 245, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 245, 255, 0.03);
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            animation: cardFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+
+        .accent-dot {
+            position: absolute;
+            color: var(--accent-color);
+            text-shadow: 0 0 10px var(--accent-color);
+            margin-left: 2px;
+        }
+
+        .subheading {
+            color: var(--accent-color);
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+            text-shadow: 0 0 8px rgba(0, 245, 255, 0.3);
+        }
+
+        /* Form styling */
+        .form-group {
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            background: rgba(0, 245, 255, 0.02);
+            box-shadow: 0 0 12px rgba(0, 245, 255, 0.15), inset 0 0 8px rgba(0, 245, 255, 0.05);
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #0a0a0a;
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 6px 20px rgba(0, 245, 255, 0.25);
+        }
+
+        .btn-submit:hover {
+            background-color: #33f7ff;
+            box-shadow: 0 10px 25px rgba(0, 245, 255, 0.45);
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* Error Message styling */
+        .error-message {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #ff3b30;
+            display: none;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-6px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(6px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ambient-overlay"></div>
+    <div class="scanline"></div>
+
+    <div class="login-card">
+        <div class="logo">DELTA_VERSE<span class="accent-dot">.</span></div>
+        <div class="subheading">A World Of Change</div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="admin@deltaverse.com" required
+                    autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="••••••••••••" required
+                    autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn-submit" id="submit-btn">Access Dashboard →</button>
+        </form>
+
+        <div class="error-message" id="error-msg">Invalid credentials. Try again.</div>
+    </div>
+
+    <script>
+        // Initialize Supabase Client
+        const supabaseUrl = 'https://pltkvkpiqmgkjzbjylsw.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdGt2a3BpcW1na2p6Ymp5bHN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NDc4NDEsImV4cCI6MjA5NjIyMzg0MX0.BRWpHWHh_bqAOPjqvTHxnwPhFDEvSc6t4yfsU8Yvy-0';
+
+        // Use supabase global object safely to prevent naming conflicts
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+        const form = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const errorMsg = document.getElementById('error-msg');
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Clear previous errors
+            errorMsg.style.display = 'none';
+
+            // Visual feedback on button loading
+            submitBtn.textContent = 'Authenticating...';
+            submitBtn.style.opacity = '0.7';
+            submitBtn.disabled = true;
+
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) {
+                    throw error;
+                }
+
+                // If login succeeds redirect to dashboard-home.html
+                if (data && data.user) {
+                    window.location.href = 'dashboard-home.html';
+                } else {
+                    throw new Error('No user data returned');
+                }
+            } catch (err) {
+                console.error('Login error:', err);
+                errorMsg.style.display = 'block';
+                // Trigger shake animation
+                errorMsg.style.animation = 'none';
+                errorMsg.offsetHeight; // trigger reflow
+                errorMsg.style.animation = null;
+            } finally {
+                // Restore button state
+                submitBtn.textContent = 'Access Dashboard →';
+                submitBtn.style.opacity = '1';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

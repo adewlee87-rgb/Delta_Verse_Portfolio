@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta_Verse | Software Developer</title>
+    <meta name="description"
+        content="Portfolio of Delta_Verse, a startup software developer. Exploring the intersection of high-end design and scalable architecture.">
+
+    <!-- Open Graph / Twitter Card -->
+    <!-- TODO: replace your-domain.com with your real production domain, and profile_bg.png with a dedicated 1200x630 social card image -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Delta_Verse | Startup Software Developer">
+    <meta property="og:description"
+        content="Rapid MVPs & AI-powered products for founders who need traction fast.">
+    <meta property="og:image" content="https://your-domain.com/profile_bg.png">
+    <meta property="og:url" content="https://your-domain.com/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Delta_Verse | Startup Software Developer">
+    <meta name="twitter:description"
+        content="Rapid MVPs & AI-powered products for founders who need traction fast.">
+    <meta name="twitter:image" content="https://your-domain.com/profile_bg.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Delta_Verse",
+        "description": "Startup software development studio building rapid MVPs and AI-powered products for founders.",
+        "founder": {
+            "@type": "Person",
+            "name": "Emmanuel Adewale",
+            "sameAs": [
+                "https://linkedin.com/in/emmanuel-adewale-30380724a",
+                "https://www.upwork.com/freelancers/~01bfc388a3d46826ca",
+                "https://www.fiverr.com/tri_verse"
+            ]
+        },
+        "email": "deltaverse300@gmail.com",
+        "url": "https://your-domain.com/"
+    }
+    </script>
+
+    <!-- Google Fonts: Bricolage Grotesque & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+    <!-- Header / Nav -->
+    <header class="header">
+        <a href="#hero" class="logo">DELTA_VERSE<span class="accent-dot">.</span></a>
+        <nav class="nav">
+            <a href="#work" class="nav-link">Work</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#testimonials" class="nav-link">Reviews</a>
+            <a href="#contact" class="nav-link">Contact</a>
+            <a href="#contact" class="nav-cta-pill">Book a Call</a>
+        </nav>
+        <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobile-menu">
+        <nav class="mobile-nav">
+            <a href="#work" class="mobile-nav-link">Work</a>
+            <a href="#about" class="mobile-nav-link">About</a>
+            <a href="#testimonials" class="mobile-nav-link">Reviews</a>
+            <a href="#contact" class="mobile-nav-link">Contact</a>
+            <a href="#contact" class="mobile-nav-link nav-cta-pill">Book a Call</a>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero section">
+            <div class="hero-content">
+                <h1 class="hero-title hero-anim-1">
+                    Delta_Verse
+                </h1>
+                <p class="hero-subtitle hero-anim-2">
+                    Startup Software Developer | AI-powered websites + Brand Strategy
+                </p>
+                <div class="hero-tech-stack hero-anim-3">
+                    <div class="tech-logo">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                        </svg>
+                        <span>Lovable Dev</span>
+                    </div>
+                    <div class="tech-logo">
+                        <img src="base44logo-removebg-preview.png" alt="Base44" />
+                        <span>Base44</span>
+                    </div>
+                    <div class="tech-logo">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <path
+                                d="M2 1.5A1.5 1.5 0 0 1 3.5 0h7A1.5 1.5 0 0 1 12 1.5V8H3.5A1.5 1.5 0 0 1 2 6.5ZM12 8h8.5A1.5 1.5 0 0 1 22 9.5v5a1.5 1.5 0 0 1-1.5 1.5H12ZM2 17.5A1.5 1.5 0 0 1 3.5 16H12v6.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 2 22.5Z" />
+                        </svg>
+
+                        <span>Replit</span>
+                    </div>
+                    <div class="tech-logo">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3" fill="currentColor" />
+                            <circle cx="6" cy="6" r="1.5" />
+                            <circle cx="18" cy="6" r="1.5" />
+                            <circle cx="12" cy="18" r="1.5" />
+                            <line x1="12" y1="9" x2="6" y2="6" />
+                            <line x1="12" y1="9" x2="18" y2="6" />
+                            <line x1="12" y1="15" x2="12" y2="16.5" />
+                        </svg>
+                        <span>Emergence AI</span>
+                    </div>
+                    <div class="tech-logo">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <path
+                                d="M21.4737 5.6842c-1.1772 0-2.1663.8051-2.4468 1.8947h-2.8955c-1.235 0-2.289.893-2.492 2.111l-.1038.623a1.263 1.263 0 0 1-1.246 1.0555H11.289c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947s-2.1663.8051-2.4467 1.8947H4.973c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947C1.1311 9.4737 0 10.6047 0 12s1.131 2.5263 2.5263 2.5263c1.1772 0 2.1663-.8051 2.4468-1.8947h1.4223c.2804 1.0896 1.2696 1.8947 2.4467 1.8947 1.1772 0 2.1663-.8051 2.4468-1.8947h1.0008a1.263 1.263 0 0 1 1.2459 1.0555l.1038.623c.203 1.218 1.257 2.111 2.492 2.111h.3692c.2804 1.0895 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263c-1.1772 0-2.1664.805-2.4468 1.8947h-.3692a1.263 1.263 0 0 1-1.246-1.0555l-.1037-.623A2.52 2.52 0 0 0 13.9607 12a2.52 2.52 0 0 0 .821-1.4794l.1038-.623a1.263 1.263 0 0 1 1.2459-1.0555h2.8955c.2805 1.0896 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263m0 1.2632a1.263 1.263 0 0 1 1.2631 1.2631 1.263 1.263 0 0 1-1.2631 1.2632 1.263 1.263 0 0 1-1.2632-1.2632 1.263 1.263 0 0 1 1.2632-1.2631M2.5263 10.7368A1.263 1.263 0 0 1 3.7895 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 1.2632 12a1.263 1.263 0 0 1 1.2631-1.2632m6.3158 0A1.263 1.263 0 0 1 10.1053 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 7.579 12a1.263 1.263 0 0 1 1.2632-1.2632m10.1053 3.7895a1.263 1.263 0 0 1 1.2631 1.2632 1.263 1.263 0 0 1-1.2631 1.2631 1.263 1.263 0 0 1-1.2632-1.2631 1.263 1.263 0 0 1 1.2632-1.2632" />
+                        </svg>
+                        <span>n8n</span>
+                    </div>
+                    <div class="tech-logo">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <path
+                                d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z" />
+                        </svg>
+                        <span>Claude Code</span>
+                    </div>
+                    <div class="tech-logo">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <path
+                                d="M13.527.099C6.955-.744.942 3.9.099 10.473c-.843 6.572 3.8 12.584 10.373 13.428 6.573.843 12.587-3.801 13.428-10.374C24.744 6.955 20.101.943 13.527.099zm2.471 7.485a.855.855 0 0 0-.593.25l-4.453 4.453-.307-.307-.643-.643c4.389-4.376 5.18-4.418 5.996-3.753zm-4.863 4.861l4.44-4.44a.62.62 0 1 1 .847.903l-4.699 4.125-.588-.588zm.33.694l-1.1.238a.06.06 0 0 1-.067-.032.06.06 0 0 1 .01-.073l.645-.645.512.512zm-2.803-.459l1.172-1.172.879.878-1.979.426a.074.074 0 0 1-.085-.039.072.072 0 0 1 .013-.093zm-3.646 6.058a.076.076 0 0 1-.069-.083.077.077 0 0 1 .022-.046h.002l.946-.946 1.222 1.222-2.123-.147zm2.425-1.256a.228.228 0 0 0-.117.256l.203.865a.125.125 0 0 1-.211.117h-.003l-.934-.934-.294-.295 3.762-3.758 1.82-.393.874.874c-1.255 1.102-2.971 2.201-5.1 3.268zm5.279-3.428h-.002l-.839-.839 4.699-4.125a.952.952 0 0 0 .119-.127c-.148 1.345-2.029 3.245-3.977 5.091zm3.657-6.46l-.003-.002a1.822 1.822 0 0 1 2.459-2.684l-1.61 1.613a.119.119 0 0 0 0 .169l1.247 1.247a1.817 1.817 0 0 1-2.093-.343zm2.578 0a1.714 1.714 0 0 1-.271.218h-.001l-1.207-1.207 1.533-1.533c.661.72.637 1.832-.054 2.522zM18.855 6.05a.143.143 0 0 0-.053.157.416.416 0 0 1-.053.45.14.14 0 0 0 .023.197.141.141 0 0 0 .084.03.14.14 0 0 0 .106-.05.691.691 0 0 0 .087-.751.138.138 0 0 0-.194-.033z" />
+                        </svg>
+                        <span>POSTMAN</span>
+
+                    </div>
+                    <div class="tech-logo">
+                        <img src="supabase-seeklogo.svg" alt="SupaBase Logo" />
+                        <span>Supabase</span>
+                    </div>
+                </div>
+                <div class="hero-cta hero-anim-4">
+                    <a href="#work" class="btn btn-primary">View Work</a>
+                    <a href="#contact" class="btn btn-secondary">Start a Project</a>
+                </div>
+            </div>
+            <div class="scroll-arrow hero-anim-4">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <polyline points="19 12 12 19 5 12"></polyline>
+                </svg>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about section">
+            <div class="section-container">
+                <h2 class="section-title fade-in-left">01 // Identity</h2>
+                <div class="about-grid">
+                    <div class="about-text fade-up">
+                        <!-- Update these paragraphs with your actual bio/information -->
+                        <p>I’m a creative technologist and digital problem-solver with 5+ years of experience building digital experiences that connect technology with real business needs. 
+                            I specialize in brand strategy, AI-powered content and video solutions, and full-stack web development, helping businesses turn ideas into meaningful digital products.</p>
+                        <p>My work sits at the intersection of creativity, strategy, and technology. 
+                            Whether I’m shaping a brand’s direction, creating engaging AI-powered visuals and videos, or developing modern web solutions,
+                            I focus on understanding the bigger picture and building solutions that are not only visually compelling but also practical, scalable, and built to create real impact.</p>
+
+                        <!-- Update these list items with your actual skills -->
+                        <ul class="tech-stack">
+                            <li>Prompt Engineering</li>
+                            <li>Web Development</li>
+                            <li>Frontend</li>
+                            <li>SupaBase</li>
+                            <li>Creative director</li>
+                            <li>SEO</li>
+                            <li>Cyber security</li>
+                            <li>Virtual Assistance</li>
+                            <li>Api Testing</li>
+                            <li>Brand Strategy</li>
+                            <li>Content Strategist</li>
+                            <li>Ai-Video Director</li>
+                            <li>SQL</li>
+                            <li>API Creation</li>
+                            </ul>
+                    </div>
+                    <div class="about-visual fade-in-right">
+                        <!-- Replace the src below with the path to your actual video -->
+                        <div class="video-container"
+                            style="position: relative; aspect-ratio: 1; display: flex; align-items: center; justify-content: center;">
+                            <video id="profile-video" autoplay loop muted playsinline
+                                style="width: 100%; height: 100%; object-fit: cover; mask-image: radial-gradient(circle at center, black 40%, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%); opacity: 0.9;">
+                                <!-- Put your video path here, e.g., 'my-showreel.mp4' -->
+                                <source src="lovableaishopify.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+
+                            <button id="volume-toggle" class="volume-btn" aria-label="Toggle Volume">
+                                <!-- Muted Icon -->
+                                <svg id="icon-muted" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" style="display: block;">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                                </svg>
+                                <!-- Unmuted Icon -->
+                                <svg id="icon-unmuted" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" style="display: none;">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work Section -->
+        <section id="work" class="work section">
+            <div class="section-container">
+                <h2 class="section-title fade-in-left">02 // LIVE PROJECTS</h2>
+                <div class="work-grid">
+                    <!-- Project 1 -->
+                    <article class="project-card featured fade-up">
+                        <div class="project-image-wrapper">
+                            <div class="project-slideshow cinematic" id="slideshow-1">
+                                <img src="videoport/getmyshade/Getmyshadeapptour1.png" alt="GetMyShade – App Tour 1"
+                                    class="slide active" loading="eager">
+                                <img src="videoport/getmyshade/Getmyshadeapptour2.png" alt="GetMyShade – App Tour 2"
+                                    class="slide" loading="lazy">
+                                <img src="videoport/getmyshade/Getmyshadeapptour3.png" alt="GetMyShade – App Tour 3"
+                                    class="slide" loading="lazy">
+                                <img src="videoport/getmyshade/Getmyshadeapptour4.png" alt="GetMyShade – App Tour 4"
+                                    class="slide" loading="lazy">
+                                <img src="videoport/getmyshade/Getmyshadeapptour5.png" alt="GetMyShade – App Tour 5"
+                                    class="slide" loading="lazy">
+                                <img src="videoport/getmyshade/Getmyshadeapptour6.png" alt="GetMyShade – App Tour 6"
+                                    class="slide" loading="lazy">
+                                <img src="videoport/getmyshade/Getmyshadeapptour7.png" alt="GetMyShade – App Tour 7"
+                                    class="slide" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">GetMyShade</h3>
+                            <p class="project-desc">A comprehensive beauty and shade-matching application helping users
+                                find their perfect cosmetics matches.</p>
+                            <!-- TODO: replace with real metrics -->
+                            <div class="project-stats">
+                                <div class="stat-item"><span class="stat-num">500+</span><span
+                                        class="stat-label">Active Users</span></div>
+                                <div class="stat-item"><span class="stat-num">4.8★</span><span
+                                        class="stat-label">Avg Rating</span></div>
+                                <div class="stat-item"><span class="stat-num">Stripe</span><span
+                                        class="stat-label">Integrated Checkout</span></div>
+                            </div>
+                            <div class="project-tags">
+                                <span>Recommendation System</span>
+                                <span>BeautyTech</span>
+                                <span>API SYSTEMS</span>
+                                <span>Dashboard level access</span>
+                                <span>Stripe integration</span>
+                                <span>Email automation</span>
+                            </div>
+                            <a href="https://getmyshade.com" target="_blank" rel="noopener noreferrer"
+                                class="btn-view-live">View Live</a>
+                        </div>
+                    </article>
+
+                    <!-- Project 2 -->
+                    <article class="project-card span-6 fade-up" style="animation-delay: 0.1s;">
+                        <div class="project-slideshow" id="slideshow-2">
+                            <img src="videoport/Trymood.co/trymood.co.png" alt="Try Mood – screenshot 1"
+                                class="slide active" loading="lazy">
+                            <img src="videoport/Trymood.co/trymood.co2.png" alt="Try Mood – screenshot 2" class="slide"
+                                loading="lazy">
+                            <img src="videoport/Trymood.co/trymood.co3.png" alt="Try Mood – screenshot 3" class="slide"
+                                loading="lazy">
+                            <img src="videoport/Trymood.co/trymood.co4.png" alt="Try Mood – screenshot 4" class="slide"
+                                loading="lazy">
+                            <img src="videoport/Trymood.co/trymood.co7.png" alt="Try Mood – screenshot 5" class="slide"
+                                loading="lazy">
+                            <img src="videoport/Trymood.co/trymood.co9.png" alt="Try Mood – screenshot 6" class="slide"
+                                loading="lazy">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Try Mood</h3>
+                            <p class="project-desc">Premium nootropic designed to target 7 neurochemical systems for
+                                mood, focus, calm, and cognitive performance.</p>
+                            <!-- TODO: replace with real metrics -->
+                            <div class="project-stats">
+                                <div class="stat-item"><span class="stat-num">1,000+</span><span
+                                        class="stat-label">Orders Processed</span></div>
+                                <div class="stat-item"><span class="stat-num">35%</span><span
+                                        class="stat-label">Repeat Purchase</span></div>
+                            </div>
+                            <div class="project-tags">
+                                <span>Health</span>
+                                <span>Nootropic</span>
+                                <span>Wellness</span>
+                                <span>Shopify</span>
+                            </div>
+                            <a href="https://www.trymood.co/?srsltid=AfmBOoqzN1KeMAFYL5JLUFb4ksHVOkbVUF8tM7IWxnwy8hdhxkPn1J_V" target="_blank" rel="noopener noreferrer"
+                                class="btn-view-live">View Live</a>
+                        </div>
+                    </article>
+
+                    <!-- Project 3 -->
+                    <article class="project-card span-6 fade-up" style="animation-delay: 0.2s;">
+                        <div class="project-slideshow" id="slideshow-3">
+                            <img src="videoport/skyline.cre/Skylinecre2.png" alt="Skyline – descriptive 1"
+                                class="slide active" loading="lazy">
+                            <img src="videoport/skyline.cre/Skylinecreimage.png" alt="Skyline –descriptive 2"
+                                class="slide" loading="lazy">
+                            <img src="videoport/skyline.cre/skyline%20cre3.png" alt="Skyline – descriptive 3"
+                                class="slide" loading="lazy">
+                            <img src="videoport/skyline.cre/skyline%20cre4.png" alt="Skyline – descriptive 4"
+                                class="slide" loading="lazy">
+                            <img src="videoport/skyline.cre/skyline%20cre%205.png" alt="Skyline – descriptive 5"
+                                class="slide" loading="lazy">
+                            <img src="videoport/skyline.cre/skyline%20cre8.png" alt="Skyline – descriptive 6"
+                                class="slide" loading="lazy">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Skyline</h3>
+                            <p class="project-desc">A cutting‑edge web platform showcasing advanced UI designs and
+                                dynamic content.</p>
+                            <!-- TODO: replace with real metrics -->
+                            <div class="project-stats">
+                                <div class="stat-item"><span class="stat-num">50+</span><span
+                                        class="stat-label">Projects Showcased</span></div>
+                                <div class="stat-item"><span class="stat-num">&lt;1s</span><span
+                                        class="stat-label">Load Time</span></div>
+                            </div>
+                            <div class="project-tags">
+                                <span>Design</span>
+                                <span>UI/UX</span>
+                                <span>Web</span>
+                            </div>
+                            <a href="https://skylinecre.com" target="_blank" rel="noopener noreferrer"
+                                class="btn-view-live">View Live</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Currently Working On Section -->
+        <section id="wip" class="wip section">
+            <div class="section-container">
+                <h2 class="section-title fade-in-left">03 // CURRENTLY WORKING ON</h2>
+                <div class="wip-grid">
+                    <!-- WIP Project 1 – Stay UK -->
+                    <article class="wip-card fade-up">
+                        <div class="wip-card-header">
+                            <div class="wip-status">
+                                <span class="wip-status-dot"></span>
+                                In Development
+                            </div>
+                        </div>
+                        <div class="wip-video-wrapper">
+                            <video autoplay muted loop playsinline class="wip-video">
+                                <source src="videoport/Stay%20Uk/stayUk.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <h3 class="project-title">Stay UK</h3>
+                        <p class="project-desc">A smart hospitality platform connecting travellers with verified
+                            UK-based accommodations, offering seamless booking, real-time availability, and personalised
+                            stay recommendations.</p>
+                        <div class="project-tags">
+                            <span>Hospitality</span>
+                            <span>Booking Engine</span>
+                            <span>Property Management</span>
+                            <span>Travel Tech</span>
+                            <span>Payment Integration</span>
+                        </div>
+                    </article>
+
+                    <!-- WIP Project 2 – Inclusion.co -->
+                    <article class="wip-card fade-up" style="animation-delay: 0.1s;">
+                        <div class="wip-card-header">
+                            <div class="wip-status">
+                                <span class="wip-status-dot"></span>
+                                In Development
+                            </div>
+                        </div>
+                        <div class="wip-slideshow-wrapper">
+                            <div class="wip-slideshow" id="wip-slideshow-inclusion">
+                                <video class="wip-slide active" muted playsinline>
+                                    <source src="videoport/Inclusion%20co/inclusion.mp4" type="video/mp4">
+                                </video>
+                                <img src="videoport/Inclusion%20co/layout%201.png" alt="Inclusion.co – Layout 1"
+                                    class="wip-slide" loading="lazy">
+                                <img src="videoport/Inclusion%20co/layout3.png" alt="Inclusion.co – Layout 3"
+                                    class="wip-slide" loading="lazy">
+                                <img src="videoport/Inclusion%20co/layout9.png" alt="Inclusion.co – Layout 9"
+                                    class="wip-slide" loading="lazy">
+                                <img src="videoport/Inclusion%20co/layout11.png" alt="Inclusion.co – Layout 11"
+                                    class="wip-slide" loading="lazy">
+                            </div>
+                            <button class="wip-slide-arrow wip-arrow-left" aria-label="Previous slide">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                    fill="none">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="wip-slide-arrow wip-arrow-right" aria-label="Next slide">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                                    fill="none">
+                                    <polyline points="9 6 15 12 9 18"></polyline>
+                                </svg>
+                            </button>
+                            <div class="wip-slide-dots" id="wip-dots-inclusion"></div>
+                        </div>
+                        <h3 class="project-title">Inclusion.co</h3>
+                        <p class="project-desc">An inclusive digital platform championing diversity and accessibility,
+                            connecting underrepresented communities with opportunities, resources, and supportive
+                            networks.</p>
+                        <div class="project-tags">
+                            <span>Inclusivity</span>
+                            <span>Community Platform</span>
+                            <span>Accessibility</span>
+                            <span>Social Impact</span>
+                            <span>Diversity Tech</span>
+                        </div>
+                    </article>
+
+                    <!-- WIP Project 3 – Jarior -->
+                    <article class="wip-card fade-up" style="animation-delay: 0.2s;">
+                        <div class="wip-card-header">
+                            <div class="wip-status">
+                                <span class="wip-status-dot"></span>
+                                In Development
+                            </div>
+                        </div>
+                        <div class="wip-video-wrapper">
+                            <video autoplay muted loop playsinline class="wip-video">
+                                <source src="videoport/jarior/jarior.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <h3 class="project-title">Jarior</h3>
+                        <p class="project-desc">A next-generation SaaS e-commerce platform empowering brands to build
+                            fast, custom digital storefronts with dynamic checkout protocols and real-time inventory
+                            management.</p>
+                        <div class="project-tags">
+                            <span>E-Commerce</span>
+                            <span>SaaS Platform</span>
+                            <span>Checkout Builder</span>
+                            <span>Inventory Sync</span>
+                            <span>Payment Gateway</span>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- WIP Waitlist Capture -->
+                <div class="wip-waitlist fade-up">
+                    <p class="wip-waitlist-text">Want to know the moment one of these ships?</p>
+                    <form id="waitlist-form" class="waitlist-form">
+                        <select id="waitlist-project" required>
+                            <option value="" disabled selected>Which project?</option>
+                            <option value="Stay UK">Stay UK</option>
+                            <option value="Inclusion.co">Inclusion.co</option>
+                            <option value="Jarior">Jarior</option>
+                        </select>
+                        <input type="email" id="waitlist-email" placeholder="you@example.com" required>
+                        <button type="submit" id="waitlist-submit">Notify Me →</button>
+                    </form>
+                    <div class="waitlist-success" id="waitlist-success">You're on the list — we'll email you at
+                        launch.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="testimonials section is-empty-hidden">
+            <div class="section-container">
+                <h2 class="section-title fade-in-left">04 // Word On The Street</h2>
+                <div class="testimonials-grid" id="testimonials-grid"></div>
+            </div>
+        </section>
+
+        <!-- Hire Me Section -->
+        <section id="contact" class="hire-me section">
+            <div class="section-container text-center">
+                <h2 class="section-title fade-up">05 // Transmit</h2>
+
+                <!-- Part 0 — Pricing / Packages -->
+                <!-- TODO: replace placeholder pricing, scope bullets, and tier names with your real packages -->
+                <div class="hire-pricing fade-up">
+                    <div class="pricing-grid">
+                        <div class="pricing-card">
+                            <h4 class="pricing-tier">Starter</h4>
+                            <div class="pricing-price">$500<span>+</span></div>
+                            <p class="pricing-desc">A focused landing page or single-feature build to test an idea
+                                fast.</p>
+                            <ul class="pricing-features">
+                                <li>1–2 pages / screens</li>
+                                <li>Vanilla or no-code build</li>
+                                <li>3–5 day turnaround</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-card featured">
+                            <div class="pricing-badge">Most Popular</div>
+                            <h4 class="pricing-tier">MVP</h4>
+                            <div class="pricing-price">$1,500<span>+</span></div>
+                            <p class="pricing-desc">A working product you can put in front of real users and
+                                investors.</p>
+                            <ul class="pricing-features">
+                                <li>Full front-end + backend</li>
+                                <li>Auth, database, payments-ready</li>
+                                <li>1–3 week turnaround</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-card">
+                            <h4 class="pricing-tier">Scale</h4>
+                            <div class="pricing-price">Custom</div>
+                            <p class="pricing-desc">Ongoing development, automation, or a larger multi-feature build.
+                            </p>
+                            <ul class="pricing-features">
+                                <li>Dedicated sprint-based work</li>
+                                <li>AI automation & integrations</li>
+                                <li>Scoped on a call</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 1 — Hero CTA -->
+                <div class="hire-hero fade-up" style="animation-delay: 0.1s;">
+                    <h3 class="hire-heading">Got an idea?</h3>
+                    <p class="hire-subheading">Let's build it fast.</p>
+                    <a href="https://calendly.com/deltaverse300/30min" target="_blank" rel="noopener noreferrer"
+                        class="btn-calendly" id="btn-calendly">Book a Free Strategy Call</a>
+                </div>
+
+                <!-- Part 2 — Freelance Platforms -->
+                <div class="hire-platforms fade-up" style="animation-delay: 0.2s;">
+                    <div class="hire-divider">
+                        <span class="hire-divider-text">Prefer a freelance platform?</span>
+                    </div>
+                    <div class="hire-platform-btns">
+                        <a href="https://www.upwork.com/freelancers/~01bfc388a3d46826ca" target="_blank"
+                            rel="noopener noreferrer" class="btn-platform" id="btn-upwork">Hire on Upwork</a>
+                        <a href="https://www.fiverr.com/tri_verse?public_mode=true" target="_blank"
+                            rel="noopener noreferrer" class="btn-platform" id="btn-fiverr">Hire on Fiverr</a>
+                    </div>
+                </div>
+
+                <!-- Part 3 — Contact Form (collapsible) -->
+                <div class="hire-form-toggle-wrapper fade-up" style="animation-delay: 0.3s;">
+                    <button type="button" class="hire-form-toggle" id="hire-form-toggle" aria-expanded="false"
+                        aria-controls="hire-form-panel">
+                        <span class="toggle-text">Or drop me a message</span>
+                        <svg class="toggle-chevron" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor"
+                            stroke-width="2" fill="none">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="hire-form-panel" id="hire-form-panel">
+                        <div class="hire-form-wrapper">
+                            <div data-fs-success class="form-success-msg" id="form-success">
+                                Message sent! I'll be in touch within 24 hours.
+                            </div>
+                            <form action="https://formspree.io/f/xlgkdelo" method="POST" class="hire-form"
+                                id="hire-form">
+                                <input type="text" name="_gotcha" id="hp-field" class="hp-field" tabindex="-1"
+                                    autocomplete="off" aria-hidden="true">
+                                <div class="form-group">
+                                    <label for="full-name">Full Name</label>
+                                    <input type="text" id="full-name" name="name" data-fs-field="name" required
+                                        placeholder="Your name">
+                                    <span data-fs-error class="form-error"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" data-fs-field="email" required
+                                        placeholder="you@example.com">
+                                    <span data-fs-error class="form-error"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="project-brief">Project Brief</label>
+                                    <textarea id="project-brief" name="message" data-fs-field="message" rows="4"
+                                        required placeholder="Tell me about your project..."></textarea>
+                                    <span data-fs-error class="form-error"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="budget">Budget Range</label>
+                                    <select id="budget" name="budget" data-fs-field="budget" required>
+                                        <option value="" disabled selected>Select a range</option>
+                                        <option value="Under $500">Under $500</option>
+                                        <option value="$500–$1000">$500–$1000</option>
+                                        <option value="$1000–$5000">$1000–$5000</option>
+                                        <option value="$5000+">$5000+</option>
+                                    </select>
+                                    <span data-fs-error class="form-error"></span>
+                                </div>
+                                <button type="submit" class="btn-submit" data-fs-submit-btn id="btn-submit">Send
+                                    Message →</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-socials">
+            <a href="https://linkedin.com/in/emmanuel-adewale-30380724a" target="_blank" rel="noopener noreferrer"
+                class="social-link" aria-label="LinkedIn Profile">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="social-icon linkedin-icon">
+                    <path
+                        d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+                <span class="platform-name">LinkedIn</span>
+            </a>
+            <a href="https://upwork.com/freelancers/~01bfc388a3d46826ca" target="_blank" rel="noopener noreferrer"
+                class="social-link" aria-label="Upwork Profile">
+                <img src="upwork-inc-seeklogo.png" alt="Upwork" class="social-icon upwork-icon">
+                <span class="platform-name">Upwork</span>
+            </a>
+            <a href="https://fiverr.com/tri_verse?public_mode=true" target="_blank" rel="noopener noreferrer"
+                class="social-link" aria-label="Fiverr Profile">
+                <img src="fiverr-seeklogo.svg" alt="Fiverr" class="social-icon fiverr-icon">
+                <span class="platform-name">Fiverr</span>
+            </a>
+        </div>
+        <p>&copy; <span id="footer-year"></span> Delta_Verse<a href="dashboard.html" style="color:inherit;text-decoration:none;cursor:default;">.</a> A World Of Change.</p>
+    </footer>
+
+    <!-- Floating Sticky CTA Button -->
+    <a href="https://calendly.com/deltaverse300/30min" target="_blank" rel="noopener noreferrer" class="floating-cta">
+        Work With Me
+    </a>
+
+    <script src="script.js"></script>
+    <script>
+        // ── WIP "Notify me at launch" waitlist capture ──
+        (function () {
+            const waitlistClient = window.supabase.createClient('https://pltkvkpiqmgkjzbjylsw.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdGt2a3BpcW1na2p6Ymp5bHN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NDc4NDEsImV4cCI6MjA5NjIyMzg0MX0.BRWpHWHh_bqAOPjqvTHxnwPhFDEvSc6t4yfsU8Yvy-0');
+
+            const form = document.getElementById('waitlist-form');
+            if (!form) return;
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const project_name = document.getElementById('waitlist-project').value;
+                const email = document.getElementById('waitlist-email').value;
+                const btn = document.getElementById('waitlist-submit');
+
+                btn.disabled = true;
+                btn.textContent = 'Submitting...';
+
+                try {
+                    const { error } = await waitlistClient.from('wip_waitlist').insert({ project_name, email });
+                    if (error) throw error;
+                    form.style.display = 'none';
+                    document.getElementById('waitlist-success').style.display = 'block';
+                } catch (err) {
+                    console.error('Waitlist insert error:', err);
+                    btn.disabled = false;
+                    btn.textContent = 'Notify Me →';
+                    alert('Something went wrong — please try again.');
+                }
+            });
+        })();
+
+        // ── Testimonials: fetch published reviews from Supabase ──
+        (function () {
+            const testimonialsClient = window.supabase.createClient('https://pltkvkpiqmgkjzbjylsw.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdGt2a3BpcW1na2p6Ymp5bHN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NDc4NDEsImV4cCI6MjA5NjIyMzg0MX0.BRWpHWHh_bqAOPjqvTHxnwPhFDEvSc6t4yfsU8Yvy-0');
+
+            function esc(v) { return v ? String(v).replace(/</g, '&lt;').replace(/>/g, '&gt;') : ''; }
+
+            function starMarkup(n) {
+                const rating = Number(n) || 0;
+                let out = '';
+                for (let i = 1; i <= 5; i++) {
+                    out += i <= rating ? '★' : '<span class="star-empty">★</span>';
+                }
+                return out;
+            }
+
+            (async function loadTestimonials() {
+                const section = document.getElementById('testimonials');
+                const grid = document.getElementById('testimonials-grid');
+                if (!section || !grid) return;
+
+                try {
+                    const { data, error } = await testimonialsClient
+                        .from('testimonials')
+                        .select('*')
+                        .eq('is_published', true)
+                        .order('created_at', { ascending: false });
+
+                    if (error) throw error;
+                    if (!data || data.length === 0) return;
+
+                    grid.innerHTML = data.map(t => `
+                        <div class="testimonial-card fade-up">
+                            <div class="testimonial-stars">${starMarkup(t.rating)}</div>
+                            <p class="testimonial-quote">${esc(t.quote)}</p>
+                            <div class="testimonial-author">${esc(t.client_name)}</div>
+                            <div class="testimonial-meta">${[t.client_title, t.project_name].filter(Boolean).map(esc).join(' · ')}</div>
+                        </div>
+                    `).join('');
+
+                    section.classList.remove('is-empty-hidden');
+
+                    // Newly-injected .fade-up cards need the scroll observer applied to them
+                    if (window.IntersectionObserver) {
+                        const observer = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+                            });
+                        }, { threshold: 0.15 });
+                        grid.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+                    } else {
+                        grid.querySelectorAll('.fade-up').forEach(el => el.classList.add('is-visible'));
+                    }
+                } catch (err) {
+                    console.error('Testimonials fetch error:', err);
+                }
+            })();
+        })();
+
+        // ── Supabase secondary enquiry capture ──
+        (function () {
+            const supabaseClient = window.supabase.createClient('https://pltkvkpiqmgkjzbjylsw.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdGt2a3BpcW1na2p6Ymp5bHN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NDc4NDEsImV4cCI6MjA5NjIyMzg0MX0.BRWpHWHh_bqAOPjqvTHxnwPhFDEvSc6t4yfsU8Yvy-0');
+
+            const form = document.getElementById('hire-form');
+            if (!form) return;
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Honeypot: if this hidden field is filled, it's a bot — silently drop
+                const hpField = document.getElementById('hp-field');
+                if (hpField && hpField.value) {
+                    form.style.display = 'none';
+                    const successEl = document.getElementById('form-success');
+                    if (successEl) successEl.style.display = 'block';
+                    return;
+                }
+
+                const client_name = document.getElementById('full-name').value;
+                const client_email = document.getElementById('email').value;
+                const project_brief = document.getElementById('project-brief').value;
+                const budget = document.getElementById('budget').value;
+
+                // Disable submit button during submission
+                const submitBtn = document.getElementById('btn-submit');
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Sending...';
+                }
+
+                Promise.all([
+                    fetch('https://formspree.io/f/xlgkdelo', {
+                        method: 'POST',
+                        body: new FormData(form),
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    }),
+                    supabaseClient.from('enquiries').insert({
+                        client_name,
+                        client_email,
+                        project_brief,
+                        budget,
+                        status: 'New'
+                    })
+                ]).then(([formspreeRes, supabaseRes]) => {
+                    if (supabaseRes.error) {
+                        console.error('Supabase insert error:', supabaseRes.error);
+                    } else {
+                        console.log('Supabase insert success');
+                    }
+                    
+                    // Hide form and show success message
+                    form.style.display = 'none';
+                    const successEl = document.getElementById('form-success');
+                    if (successEl) {
+                        successEl.style.display = 'block';
+                    }
+                }).catch(err => {
+                    console.error('Submission error:', err);
+                    // Still show success to user if Formspree or Supabase throws a network error
+                    form.style.display = 'none';
+                    const successEl = document.getElementById('form-success');
+                    if (successEl) {
+                        successEl.style.display = 'block';
+                    }
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>
