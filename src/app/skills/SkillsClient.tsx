@@ -15,6 +15,13 @@ const FLOORS = [
 
 const WEB_PROJECTS = [
   {
+    title: "Y'ello Log",
+    desc: "A secure, educational electronic logbook platform featuring robust authentication and a detailed student dashboard experience.",
+    tags: ["Dashboard", "Auth", "Educational"],
+    image: "/videoport/yellolog/1.png",
+    link: "https://e-logbook-cyan.vercel.app/"
+  },
+  {
     title: "GetMyShade",
     desc: "A massive, scalable e-commerce web application with a bespoke frontend and high-converting user flow.",
     tags: ["React", "Next.js", "E-Commerce", "Full-Stack"],
