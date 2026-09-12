@@ -12,7 +12,7 @@ export default function TestimonialsClient({ testimonials }: { testimonials: any
   const bgTextX = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
   const springBgTextX = useSpring(bgTextX, { damping: 15, mass: 0.1, stiffness: 50 });
 
-  const containerVariants = {
+  const containerVariants: any = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -20,7 +20,7 @@ export default function TestimonialsClient({ testimonials }: { testimonials: any
     }
   };
 
-  const itemVariants = {
+  const itemVariants: any = {
     hidden: { opacity: 0, y: 50, scale: 0.95 },
     show: { 
       opacity: 1, 

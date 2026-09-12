@@ -15,7 +15,7 @@ export default function Hero() {
 
   const title = "DELTA_VERSE".split("");
 
-  const container = {
+  const container: any = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
@@ -23,7 +23,7 @@ export default function Hero() {
     }),
   };
 
-  const child = {
+  const child: any = {
     hidden: {
       opacity: 0,
       y: 100,
