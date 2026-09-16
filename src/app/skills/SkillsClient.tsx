@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useHapticTickOnCenter } from "@/hooks/useHaptics";
 import GlobalLoader from "@/components/GlobalLoader";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 
@@ -184,6 +185,7 @@ function ProjectDisplayWheelItem({ project, index }: { project: any, index: numb
   });
 
   const smoothProgress = useSpring(scrollYProgress, { damping: 20, stiffness: 100 });
+  useHapticTickOnCenter(scrollYProgress);
 
   // Wheel transformations
   // As it moves from 0 to 0.5 to 1:
@@ -276,6 +278,7 @@ function EmptyDisplayWheelItem() {
   });
 
   const smoothProgress = useSpring(scrollYProgress, { damping: 20, stiffness: 100 });
+  useHapticTickOnCenter(scrollYProgress);
 
   const rotateX = useTransform(smoothProgress, [0, 0.5, 1], [-45, 0, 45]);
   const scale = useTransform(smoothProgress, [0, 0.4, 0.6, 1], [0.6, 1, 1, 0.6]);
